@@ -8,7 +8,7 @@ namespace OOP
         {
             Engine engine = new Engine("nimbus2000", 200, 5, 5.5);
             engine.VolumeEngine();
-            Car car = new Car("suzuki", 4, "1002L", engine);
+            Car car = new Car("suzuki", 200, "1002L", engine);
             car.Gas();
             Bycicle bycicle = new Bycicle("byciclePro", 2, "Mountain bike");
             bycicle.Gas();
@@ -19,17 +19,22 @@ namespace OOP
     class Transport
     {
         private string name;
-        private int countWheel;
+        private double maxSpeed;
+
         
-        public Transport(string name, int countWheel)
+        public Transport(string name, double maxSpeed)
         {
             this.name = name;
-            this.countWheel = countWheel;            
+            this.maxSpeed = maxSpeed;            
         }
 
         public string getName()
         {
             return name;
+        }
+        public double getMaxSpeed()
+        {
+            return maxSpeed;
         }
         
     }
@@ -75,12 +80,11 @@ namespace OOP
     {
         private string model;
         private Engine engine;
-        public Car(string name, int countWheel, string model, Engine engine)
-            :base(name, countWheel)
+        public Car(string name, double maxSpeed, string model, Engine engine)
+            :base(name, maxSpeed)
         {
             this.model = model;
-            this.engine = engine;
-            
+            this.engine = engine;            
         }
 
         public string getModel()
@@ -110,8 +114,8 @@ namespace OOP
     class Bycicle : Transport, IDrive
     {
         private string type;
-        public Bycicle(string name, int countWheel, string type)
-            :base(name, countWheel)
+        public Bycicle(string name, double maxSpeed, string type)
+            :base(name, maxSpeed)
         {
             this.type = type;
         }
