@@ -10,8 +10,7 @@ namespace OOP
             engine.VolumeEngine();
             Car car = new Car("suzuki", 200, "1002L", engine);
             car.Gas();
-            Bycicle bycicle = new Bycicle("byciclePro", 2, "Mountain bike");
-            bycicle.Gas();
+            car.GetEngineCar().VolumeEngine();
         }
     }
 
@@ -51,20 +50,24 @@ namespace OOP
     }
     class Engine:Cylinders
     {
-        private string model;
+        private string modelEngine;
         private double horsepower;
 
-        public Engine(string model, double horsepower, int numberOfCylinders, double volumeOfCylinders)
+        public Engine(string modelEngine, double horsepower, int numberOfCylinders, double volumeOfCylinders)
             :base(numberOfCylinders, volumeOfCylinders)
         {
-            this.model = model;
+            this.modelEngine = modelEngine;
             this.horsepower = horsepower;
+        }
+        public string getModelEngine()
+        {
+            return modelEngine;
         }
 
         public void VolumeEngine()
         {
             double volumeEngine = numberOfCylinders * volumeOfCylinders;
-            Console.WriteLine("Объем двигателя модели " + model + " = " + volumeEngine);
+            Console.WriteLine("Объем двигателя модели " + modelEngine + " = " + volumeEngine);
         }
 
     }
@@ -78,19 +81,24 @@ namespace OOP
     }
     class Car : Transport, IDrive
     {
-        private string model;
-        private Engine engine;
-        public Car(string name, double maxSpeed, string model, Engine engine)
+        private string modelCar;
+        private Engine engineCar;
+        public Car(string name, double maxSpeed, string modelCar, Engine engineCar)
             :base(name, maxSpeed)
         {
-            this.model = model;
-            this.engine = engine;            
+            this.modelCar = modelCar;
+            this.engineCar = engineCar;            
         }
 
-        public string getModel()
+        public string getModelCar()
         {
-            return model;
+            return modelCar;
         }
+        public Engine GetEngineCar()
+        {
+            return engineCar;
+        }
+
        public void Brake()
         {
             Console.WriteLine("Машина " + getName() + " тормозит");
@@ -111,32 +119,5 @@ namespace OOP
             Console.WriteLine("Машина" + getName() + "поворачивает направо");
         }
     }
-    class Bycicle : Transport, IDrive
-    {
-        private string type;
-        public Bycicle(string name, double maxSpeed, string type)
-            :base(name, maxSpeed)
-        {
-            this.type = type;
-        }
-        public void Brake()
-        {
-            Console.WriteLine("Велосипед" + getName() + " типа "+type+" тормозит");
-        }
-
-        public void Gas()
-        {
-            Console.WriteLine("На велосипеде " + getName() + " типа " + type + " активно крутятся педали");
-        }
-
-        public void LeftTurn()
-        {
-            Console.WriteLine("Велосипед" + getName() + "поворачивает налево");
-        }
-
-        public void RightTurn()
-        {
-            Console.WriteLine("Велосипед" + getName() + "поворачивает направо");
-        }
-    }
+    
 }
