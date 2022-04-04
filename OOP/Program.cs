@@ -18,13 +18,18 @@ namespace OOP
    
     class Transport
     {
-        protected string name;
+        private string name;
         private int countWheel;
         
         public Transport(string name, int countWheel)
         {
             this.name = name;
             this.countWheel = countWheel;            
+        }
+
+        public string getName()
+        {
+            return name;
         }
         
     }
@@ -78,24 +83,28 @@ namespace OOP
             
         }
 
+        public string getModel()
+        {
+            return model;
+        }
        public void Brake()
         {
-            Console.WriteLine("Машина " + name + " тормозит");
+            Console.WriteLine("Машина " + getName() + " тормозит");
         }
 
         public void Gas()
         {
-            Console.WriteLine("Машина " + name + " газует");
+            Console.WriteLine("Машина " + getName() + " газует");
         }
 
         public void LeftTurn()
         {
-            Console.WriteLine("Машина " + name + " поворачивает налево");
+            Console.WriteLine("Машина " + getName() + " поворачивает налево");
         }
 
         public void RightTurn()
         {
-            Console.WriteLine("Машина" + name + "поворачивает направо");
+            Console.WriteLine("Машина" + getName() + "поворачивает направо");
         }
     }
     class Bycicle : Transport, IDrive
@@ -108,22 +117,22 @@ namespace OOP
         }
         public void Brake()
         {
-            Console.WriteLine("Велосипед" + name + " типа "+type+" тормозит");
+            Console.WriteLine("Велосипед" + getName() + " типа "+type+" тормозит");
         }
 
         public void Gas()
         {
-            Console.WriteLine("На велосипеде " + name + " типа " + type + " активно крутятся педали");
+            Console.WriteLine("На велосипеде " + getName() + " типа " + type + " активно крутятся педали");
         }
 
         public void LeftTurn()
         {
-            Console.WriteLine("Велосипед" + name + "поворачивает налево");
+            Console.WriteLine("Велосипед" + getName() + "поворачивает налево");
         }
 
         public void RightTurn()
         {
-            Console.WriteLine("Велосипед" + name + "поворачивает направо");
+            Console.WriteLine("Велосипед" + getName() + "поворачивает направо");
         }
     }
 }
