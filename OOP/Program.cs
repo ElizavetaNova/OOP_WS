@@ -9,13 +9,14 @@ namespace OOP
             Engine engine = new Engine("nimbus2000", 200, 5, 5.5);
             engine.VolumeEngine();
             Car car = new Car("suzuki", 200, "1002L", engine);
+            car.Brake();
             car.Gas();
             car.GetEngineCar().VolumeEngine();
         }
     }
 
    
-    class Transport
+    public class Transport
     {
         private string name;
         private double maxSpeed;
@@ -37,7 +38,7 @@ namespace OOP
         }
         
     }
-    class Cylinders
+    public class Cylinders
     {
         protected int numberOfCylinders;
         protected double volumeOfCylinders;
@@ -48,7 +49,7 @@ namespace OOP
         }
         
     }
-    class Engine:Cylinders
+    public class Engine:Cylinders
     {
         private string modelEngine;
         private double horsepower;
@@ -64,32 +65,38 @@ namespace OOP
             return modelEngine;
         }
 
-        public void VolumeEngine()
+        public double VolumeEngine()
         {
             double volumeEngine = numberOfCylinders * volumeOfCylinders;
             Console.WriteLine("Объем двигателя модели " + modelEngine + " = " + volumeEngine);
+            return volumeEngine;
         }
 
     }
     public interface IDrive
     {
-        void Gas();
-        void Brake();
+        double Gas();
+        double Brake();
         void LeftTurn();
         void RightTurn();
 
     }
-    class Car : Transport, IDrive
+    public class Car : Transport, IDrive
     {
         private string modelCar;
         private Engine engineCar;
+        private double speedNow = 0;
         public Car(string name, double maxSpeed, string modelCar, Engine engineCar)
-            :base(name, maxSpeed)
+            : base(name, maxSpeed)
         {
             this.modelCar = modelCar;
-            this.engineCar = engineCar;            
-        }
+            this.engineCar = engineCar;
 
+        }
+        public double GetSpeedNow()
+        {
+            return speedNow;
+        }
         public string getModelCar()
         {
             return modelCar;
@@ -99,14 +106,43 @@ namespace OOP
             return engineCar;
         }
 
-       public void Brake()
+       public double Brake()
         {
-            Console.WriteLine("Машина " + getName() + " тормозит");
+            if (speedNow - 20 >= 0)
+            {
+                Console.WriteLine("Машина " + getName() + " тормозит");
+                speedNow -=20;
+                return speedNow;
+            }
+            else if (speedNow == 0)
+            {
+                Console.WriteLine("Машина " + getName() + " уже и так стоит");
+                return speedNow;
+            }
+            else
+            {
+                Console.WriteLine("Машина " + getName() + " не может тормозить");
+                return speedNow;
+            }
+                
+                
         }
 
-        public void Gas()
+        public double Gas()
         {
-            Console.WriteLine("Машина " + getName() + " газует");
+            if (speedNow + 40 < getMaxSpeed())
+            {                
+                speedNow += 40;
+                Console.WriteLine("Машина " + getName() + " газует");
+                return speedNow;
+            }
+            else
+            {
+                Console.WriteLine("Нельзя так гнать");
+                return speedNow;
+            }
+                           
+            
         }
 
         public void LeftTurn()
