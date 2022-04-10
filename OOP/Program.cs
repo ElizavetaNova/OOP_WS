@@ -6,12 +6,12 @@ namespace OOP
     {
         static void Main(string[] args)
         {
-            Engine engine = new Engine("nimbus2000", 200, 5, 5.5);
-            engine.VolumeEngine();
-            Car car = new Car("suzuki", 200, "1002L", engine);
-            car.Brake();
-            car.Gas();
-            car.GetEngineCar().VolumeEngine();
+            //Engine engine = new Engine("nimbus2000", 200, 5, 5.5);
+            //engine.VolumeEngine();
+            //Car car = new Car("suzuki", 200, "1002L", engine);
+            //car.Brake();
+            //car.Gas();
+            //car.GetEngineCar().VolumeEngine();
         }
     }
 
@@ -35,8 +35,7 @@ namespace OOP
         public double getMaxSpeed()
         {
             return maxSpeed;
-        }
-        
+        }        
     }
     public class Cylinders
     {
@@ -53,12 +52,39 @@ namespace OOP
     {
         private string modelEngine;
         private double horsepower;
+        private string type;
+        public int degreeOfWear;
+        private int speedBoost;
 
-        public Engine(string modelEngine, double horsepower, int numberOfCylinders, double volumeOfCylinders)
+        public Engine(string modelEngine, double horsepower, int numberOfCylinders, double volumeOfCylinders, string type)
             :base(numberOfCylinders, volumeOfCylinders)
         {
             this.modelEngine = modelEngine;
             this.horsepower = horsepower;
+            this.type = type;
+            degreeOfWear = 0;
+        }
+        
+        public int getSpeedBoost()
+        {
+            if (type == "sport")
+            {
+                speedBoost = 40;
+                return speedBoost;
+            }
+            else
+            {
+                speedBoost = 20;
+                return speedBoost;
+            }
+        }
+        public string getTypeEngine()
+        {
+            return type;
+        }
+        public int getDegreeWearEngine()
+        {
+            return degreeOfWear;
         }
         public string getModelEngine()
         {
@@ -71,12 +97,23 @@ namespace OOP
             Console.WriteLine("Объем двигателя модели " + modelEngine + " = " + volumeEngine);
             return volumeEngine;
         }
-
+        public bool CheckDegreeOfWear()
+        {
+            if (degreeOfWear < 100)
+                return true;
+            else
+                return false;
+        }
+        public int DegreeOfWearUp()
+        {
+            degreeOfWear += 40;
+            return degreeOfWear;
+        }
     }
     public interface IDrive
     {
         double Gas();
-        double Brake();
+        double Brake(int speedDown);
         void LeftTurn();
         void RightTurn();
 
@@ -106,45 +143,52 @@ namespace OOP
             return engineCar;
         }
 
-       public double Brake()
+       public double Brake(int speedDown)
         {
-            if (speedNow - 20 >= 0)
-            {
-                Console.WriteLine("Машина " + getName() + " тормозит");
-                speedNow -=20;
+            if (speedNow - speedDown >= 0)
+            {                
+                speedNow -= speedDown;
                 return speedNow;
             }
             else if (speedNow == 0)
             {
-                Console.WriteLine("Машина " + getName() + " уже и так стоит");
-                return speedNow;
+                throw new Exception("Машина и так стоит");
             }
             else
             {
-                Console.WriteLine("Машина " + getName() + " не может тормозить");
-                return speedNow;
+                throw new Exception("Машина не может затормозить на такое значение");                
             }
-                
-                
-        }
+       }       
 
         public double Gas()
         {
-            if (speedNow + 40 < getMaxSpeed())
-            {                
-                speedNow += 40;
-                Console.WriteLine("Машина " + getName() + " газует");
-                return speedNow;
+            if (GetEngineCar().CheckDegreeOfWear() == true)
+            {
+                if (speedNow + GetEngineCar().getSpeedBoost() < getMaxSpeed())
+                {
+                    speedNow += GetEngineCar().getSpeedBoost();
+                    return speedNow;
+                }
+                else if (speedNow + GetEngineCar().getSpeedBoost() == getMaxSpeed())
+                {
+                    speedNow += GetEngineCar().getSpeedBoost();
+                    engineCar.DegreeOfWearUp();
+                    return speedNow;
+                }
+                else
+                {
+                    throw new Exception("Нельзя превысить максимальную скорость");
+                }
             }
             else
             {
-                Console.WriteLine("Нельзя так гнать");
-                return speedNow;
-            }
-                           
+                speedNow = 0;                
+                throw new Exception("Двигатель умер, машина больше не поедет");
+                
+            }                         
             
         }
-
+        
         public void LeftTurn()
         {
             Console.WriteLine("Машина " + getName() + " поворачивает налево");
