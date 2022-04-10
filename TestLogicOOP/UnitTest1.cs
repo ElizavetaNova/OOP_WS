@@ -143,7 +143,6 @@ namespace TestLogicOOP
                 Assert.AreEqual("Двигатель умер, машина больше не поедет", ex.Message);
             }            
         }
-
         [TestMethod]
         public void CheckSpeedDown()
         {
